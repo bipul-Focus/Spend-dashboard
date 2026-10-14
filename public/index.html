@@ -1,0 +1,724 @@
+<title>ER White Rock Spend</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@500;700&display=swap">
+<style>
+:root {
+  --bg: #f8f9fb;
+  --bg-card: #ffffff;
+  --bg-sidebar: #0f172a;
+  --bg-sidebar-active: rgba(255,255,255,.08);
+  --fg: #1e293b;
+  --fg-muted: #64748b;
+  --fg-sidebar: #cbd5e1;
+  --fg-sidebar-active: #ffffff;
+  --border: #e2e8f0;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --accent-fg: #ffffff;
+  --green: #16a34a;
+  --green-bg: #dcfce7;
+  --red: #dc2626;
+  --red-bg: #fee2e2;
+  --amber: #d97706;
+  --amber-bg: #fef3c7;
+  --chart-1: #2563eb;
+  --chart-2: #7c3aed;
+  --chart-3: #0891b2;
+  --chart-4: #059669;
+  --chart-5: #d97706;
+  --chart-6: #dc2626;
+  --chart-7: #be185d;
+  --chart-8: #4f46e5;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f172a;
+    --bg-card: #1e293b;
+    --bg-sidebar: #020617;
+    --bg-sidebar-active: rgba(255,255,255,.1);
+    --fg: #e2e8f0;
+    --fg-muted: #94a3b8;
+    --fg-sidebar: #94a3b8;
+    --fg-sidebar-active: #f1f5f9;
+    --border: #334155;
+    --accent: #3b82f6;
+    --accent-light: #1e3a5f;
+    --accent-fg: #ffffff;
+    --green: #22c55e;
+    --green-bg: #14532d;
+    --red: #f87171;
+    --red-bg: #450a0a;
+    --amber: #fbbf24;
+    --amber-bg: #451a03;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+    --shadow: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-sidebar: #020617;
+  --bg-sidebar-active: rgba(255,255,255,.1);
+  --fg: #e2e8f0;
+  --fg-muted: #94a3b8;
+  --fg-sidebar: #94a3b8;
+  --fg-sidebar-active: #f1f5f9;
+  --border: #334155;
+  --accent: #3b82f6;
+  --accent-light: #1e3a5f;
+  --accent-fg: #ffffff;
+  --green: #22c55e;
+  --green-bg: #14532d;
+  --red: #f87171;
+  --red-bg: #450a0a;
+  --amber: #fbbf24;
+  --amber-bg: #451a03;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+  --shadow: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.shell { display: flex; min-height: 100dvh; margin: 0 -16px; }
+@media (max-width: 900px) { .shell { margin: 0; } }
+
+/* Sidebar */
+.sidebar {
+  width: 240px; flex-shrink: 0; background: var(--bg-sidebar);
+  padding: 24px 16px; display: flex; flex-direction: column; gap: 32px;
+}
+@media (max-width: 900px) { .sidebar { display: none; } }
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+  width: 36px; height: 36px; background: var(--accent); border-radius: 10px;
+  display: grid; place-items: center;
+}
+.logo-icon svg { color: var(--accent-fg); }
+.logo-text h1 { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: var(--fg-sidebar-active); letter-spacing: -.02em; }
+.logo-text p { font-size: 10px; text-transform: uppercase; letter-spacing: .16em; color: var(--fg-sidebar); opacity: .5; }
+.nav-section-label { font-size: 10px; text-transform: uppercase; letter-spacing: .16em; color: var(--fg-sidebar); opacity: .5; font-weight: 700; padding: 0 8px; }
+.nav-items { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--fg-sidebar);
+  cursor: pointer; transition: background .15s;
+}
+.nav-item:hover { background: var(--bg-sidebar-active); }
+.nav-item.active { background: var(--bg-sidebar-active); color: var(--fg-sidebar-active); font-weight: 600; }
+.nav-item.active .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-left: auto; }
+
+/* Main */
+.main { flex: 1; min-width: 0; padding: 24px 28px; overflow-x: hidden; }
+@media (max-width: 900px) { .main { padding: 16px; } }
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.topbar h2 { font-family: 'DM Sans', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+  border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--border); background: var(--bg-card); color: var(--fg);
+  transition: background .15s, border-color .15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn-icon { padding: 8px; }
+.btn svg { width: 16px; height: 16px; }
+
+/* Filter bar */
+.filters {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+  padding: 12px 16px; background: var(--bg-card); border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm); align-items: center;
+}
+.filter-group { display: flex; align-items: center; gap: 6px; }
+.filter-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--fg-muted); }
+.filter-input, .filter-select {
+  padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+  font-size: 13px; background: var(--bg); color: var(--fg); outline: none;
+  font-family: inherit;
+}
+.filter-input:focus, .filter-select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
+.search-wrap { position: relative; flex: 1; min-width: 160px; }
+.search-wrap input { width: 100%; padding-left: 32px; }
+.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--fg-muted); }
+
+/* Metric cards */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.metric-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-sm);
+}
+.metric-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--fg-muted); display: flex; align-items: center; gap: 6px; }
+.metric-value { font-size: 28px; font-weight: 800; letter-spacing: -.03em; margin-top: 8px; font-family: 'DM Sans', sans-serif; }
+.metric-sub { font-size: 12px; color: var(--fg-muted); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.metric-badge {
+  display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px;
+  border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.badge-up { background: var(--green-bg); color: var(--green); }
+.badge-down { background: var(--red-bg); color: var(--red); }
+
+/* Charts */
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+.chart-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.chart-card.full { grid-column: 1 / -1; }
+.chart-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.chart-title svg { color: var(--accent); width: 18px; height: 18px; }
+
+/* SVG chart styles */
+.area-fill { opacity: .15; }
+.area-line { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.grid-line { stroke: var(--border); stroke-dasharray: 3 3; }
+.axis-label { fill: var(--fg-muted); font-size: 11px; font-family: 'Inter', sans-serif; }
+.bar-rect { rx: 4; }
+.chart-tooltip {
+  position: absolute; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; font-size: 12px; pointer-events: none;
+  box-shadow: var(--shadow); z-index: 10; white-space: nowrap;
+}
+.chart-tooltip strong { font-weight: 700; }
+
+/* Pie legend */
+.pie-legend { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.pie-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.pie-legend-item span:last-child { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Table */
+.table-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.table-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; flex-wrap: wrap; gap: 8px; }
+.table-header h3 { font-size: 14px; font-weight: 700; }
+.table-header-right { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--fg-muted); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em; color: var(--fg-muted);
+  border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap;
+  user-select: none;
+}
+th:hover { color: var(--accent); }
+th .sort-arrow { display: inline; margin-left: 3px; }
+td { padding: 10px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--accent-light); }
+.channel-badge {
+  display: inline-flex; padding: 2px 10px; border-radius: 20px; font-size: 11px;
+  font-weight: 600; background: var(--accent-light); color: var(--accent);
+}
+.table-footer { padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+.table-footer button {
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--fg); font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: inherit;
+}
+.table-footer button:hover { border-color: var(--accent); }
+.table-footer button:disabled { opacity: .4; cursor: default; }
+.table-footer .page-info { font-size: 12px; color: var(--fg-muted); }
+
+/* Mobile topbar */
+.mobile-bar { display: none; align-items: center; justify-content: space-between; padding: 12px 0; margin-bottom: 8px; }
+@media (max-width: 900px) { .mobile-bar { display: flex; } }
+.mobile-bar h1 { font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 700; }
+</style>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo-area">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="logo-text">
+        <h1>ER White Rock</h1>
+        <p>Marketing Spend</p>
+      </div>
+    </div>
+    <div>
+      <div class="nav-section-label">Analytics</div>
+      <div class="nav-items">
+        <div class="nav-item active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+          <span class="nav-dot"></span>
+        </div>
+        <div class="nav-item" onclick="scrollTo('.charts')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Charts
+        </div>
+        <div class="nav-item" onclick="scrollTo('.table-card')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Transactions
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:auto; padding: 12px; border-radius: 10px; background: var(--bg-sidebar-active);">
+      <div style="font-size:11px; color: var(--fg-sidebar); opacity:.6;">Data period</div>
+      <div style="font-size:13px; color: var(--fg-sidebar-active); font-weight:600; margin-top:2px;">Feb – Sep 2026</div>
+      <div style="font-size:11px; color: var(--fg-sidebar); opacity:.6; margin-top:4px;">270 transactions</div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main" id="main">
+    <div class="mobile-bar">
+      <h1>ER White Rock</h1>
+      <button class="btn btn-icon" id="theme-toggle-mobile" aria-label="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+
+    <div class="topbar">
+      <h2>Spend Overview</h2>
+      <div class="topbar-actions">
+        <button class="btn" id="export-csv">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters" id="filters">
+      <div class="filter-group">
+        <span class="filter-label">From</span>
+        <input type="date" class="filter-input" id="f-from">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">To</span>
+        <input type="date" class="filter-input" id="f-to">
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Channel</span>
+        <select class="filter-select" id="f-channel"><option value="all">All Channels</option></select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Vendor</span>
+        <select class="filter-select" id="f-vendor"><option value="all">All Vendors</option></select>
+      </div>
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="filter-input" id="f-search" placeholder="Search campaigns, vendors…">
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics" id="metrics"></div>
+
+    <!-- Charts -->
+    <div class="charts" id="charts-area">
+      <div class="chart-card full" id="chart-trend">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Monthly Spend Trend
+        </div>
+        <div id="trend-svg" style="position:relative;"></div>
+      </div>
+      <div class="chart-card" id="chart-channel">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Spend by Channel
+        </div>
+        <div id="channel-svg" style="position:relative;"></div>
+        <div id="channel-legend" class="pie-legend"></div>
+      </div>
+      <div class="chart-card" id="chart-vendor">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          Top Vendors
+        </div>
+        <div id="vendor-svg" style="position:relative;"></div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card" id="expense-table">
+      <div class="table-header">
+        <h3>Transaction Details</h3>
+        <div class="table-header-right">
+          <span id="table-count"></span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-col="date">Date <span class="sort-arrow"></span></th>
+            <th data-col="vendor">Vendor <span class="sort-arrow"></span></th>
+            <th data-col="channel">Channel <span class="sort-arrow"></span></th>
+            <th data-col="description">Description</th>
+            <th data-col="amount" style="text-align:right">Amount <span class="sort-arrow"></span></th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <button id="prev-page">← Previous</button>
+        <span class="page-info" id="page-info"></span>
+        <button id="next-page">Next →</button>
+      </div>
+    </div>
+
+    <div style="text-align:center; padding: 32px 0 16px; font-size: 11px; color: var(--fg-muted);">
+      ER of White Rock LLC · Marketing Spend Dashboard · Data: QuickBooks Export, Feb–Sep 2026
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- DATA ----------
+const DATA=[{"id":1,"date":"2026-02-13","vendor":"NextGen Healthare LLC","amount":5000,"channel":"Marketing Agency","description":"Set Up fee for Marketing"},{"id":2,"date":"2026-02-13","vendor":"NextGen Healthare LLC","amount":4250,"channel":"Marketing Agency","description":""},{"id":3,"date":"2026-02-19","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":4,"date":"2026-02-20","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":5,"date":"2026-02-20","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":6,"date":"2026-02-20","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":7,"date":"2026-02-20","vendor":"Facebook Ads","amount":2.16,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":8,"date":"2026-02-20","vendor":"Facebook Ads","amount":2.24,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":9,"date":"2026-02-20","vendor":"Facebook Ads","amount":3,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":10,"date":"2026-02-21","vendor":"Google Ads","amount":30,"channel":"Google Ads","description":"Jaya Dahal"},{"id":11,"date":"2026-02-21","vendor":"Facebook Ads","amount":6,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":12,"date":"2026-02-21","vendor":"Facebook Ads","amount":10,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":13,"date":"2026-02-22","vendor":"Facebook Ads","amount":10,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":14,"date":"2026-02-23","vendor":"Google Ads","amount":10,"channel":"Google Ads","description":"Jaya Dahal"},{"id":15,"date":"2026-02-23","vendor":"Facebook Ads","amount":9,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":16,"date":"2026-02-24","vendor":"Facebook Ads","amount":9,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":17,"date":"2026-02-25","vendor":"Google Ads","amount":50,"channel":"Google Ads","description":"Jaya Dahal"},{"id":18,"date":"2026-02-25","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":19,"date":"2026-02-25","vendor":"Facebook Ads","amount":2.14,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":20,"date":"2026-02-25","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":21,"date":"2026-02-25","vendor":"Facebook Ads","amount":2,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":22,"date":"2026-02-25","vendor":"Facebook Ads","amount":3,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":23,"date":"2026-02-26","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":24,"date":"2026-02-26","vendor":"Google Ads","amount":100,"channel":"Google Ads","description":"Jaya Dahal"},{"id":25,"date":"2026-02-26","vendor":"Facebook Ads","amount":5,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":26,"date":"2026-02-27","vendor":"Facebook Ads","amount":5,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":27,"date":"2026-02-27","vendor":"Facebook Ads","amount":17,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":28,"date":"2026-02-27","vendor":"Facebook Ads","amount":4,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":29,"date":"2026-02-27","vendor":"Facebook Ads","amount":4,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":30,"date":"2026-02-28","vendor":"Facebook Ads","amount":4,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":31,"date":"2026-02-28","vendor":"Facebook Ads","amount":4,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":32,"date":"2026-02-28","vendor":"Google Ads","amount":200,"channel":"Google Ads","description":"Jaya Dahal"},{"id":33,"date":"2026-02-28","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":34,"date":"2026-02-28","vendor":"Core C WR LLC","amount":5500,"channel":"Promotions & Supplies","description":"Marketing Services -Half February 2026"},{"id":35,"date":"2026-03-01","vendor":"Facebook Ads","amount":9,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":36,"date":"2026-03-01","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":37,"date":"2026-03-02","vendor":"Facebook Ads","amount":9,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":38,"date":"2026-03-02","vendor":"Google Ads","amount":170.61,"channel":"Google Ads","description":"Jaya Dahal"},{"id":39,"date":"2026-03-03","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":40,"date":"2026-03-03","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":41,"date":"2026-03-04","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":42,"date":"2026-03-05","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":43,"date":"2026-03-06","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":44,"date":"2026-03-06","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":45,"date":"2026-03-06","vendor":"Google Ads","amount":350,"channel":"Google Ads","description":"Jaya Dahal"},{"id":46,"date":"2026-03-06","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":47,"date":"2026-03-07","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":48,"date":"2026-03-08","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":49,"date":"2026-03-08","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":50,"date":"2026-03-09","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":51,"date":"2026-03-10","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":52,"date":"2026-03-10","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":53,"date":"2026-03-10","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":54,"date":"2026-03-11","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":55,"date":"2026-03-12","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":56,"date":"2026-03-12","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":57,"date":"2026-03-14","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":58,"date":"2026-03-14","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":59,"date":"2026-03-15","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":60,"date":"2026-03-15","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":61,"date":"2026-03-15","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":62,"date":"2026-03-16","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":63,"date":"2026-03-16","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":64,"date":"2026-03-17","vendor":"Facebook Ads","amount":15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":65,"date":"2026-03-18","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":66,"date":"2026-03-19","vendor":"Facebook Ads","amount":4.15,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":67,"date":"2026-03-19","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":68,"date":"2026-03-19","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":69,"date":"2026-03-20","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":70,"date":"2026-03-21","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":71,"date":"2026-03-21","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":72,"date":"2026-03-21","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":73,"date":"2026-03-22","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":74,"date":"2026-03-23","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":75,"date":"2026-03-24","vendor":"Facebook Ads","amount":11.82,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":76,"date":"2026-03-24","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":77,"date":"2026-03-25","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":78,"date":"2026-03-25","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":79,"date":"2026-03-26","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":80,"date":"2026-03-26","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":81,"date":"2026-03-27","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":82,"date":"2026-03-27","vendor":"Facebook Ads","amount":22,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":83,"date":"2026-03-28","vendor":"Facebook Ads","amount":21,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":84,"date":"2026-03-29","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":85,"date":"2026-03-29","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":86,"date":"2026-03-30","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":87,"date":"2026-03-31","vendor":"Facebook Ads","amount":21,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":88,"date":"2026-03-31","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - March 2026"},{"id":89,"date":"2026-04-01","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":90,"date":"2026-04-01","vendor":"Facebook Ads","amount":21,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":91,"date":"2026-04-01","vendor":"Google Ads","amount":377.18,"channel":"Google Ads","description":"Jaya Dahal"},{"id":92,"date":"2026-04-01","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":93,"date":"2026-04-03","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":94,"date":"2026-04-04","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":95,"date":"2026-04-05","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":96,"date":"2026-04-07","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":97,"date":"2026-04-07","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":98,"date":"2026-04-08","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":99,"date":"2026-04-09","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":100,"date":"2026-04-09","vendor":"Islamic Society of North America","amount":52.01,"channel":"Events & Sponsorships","description":"Jaya Dahal"},{"id":101,"date":"2026-04-10","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":102,"date":"2026-04-11","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":103,"date":"2026-04-11","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":104,"date":"2026-04-12","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":105,"date":"2026-04-14","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":106,"date":"2026-04-14","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":107,"date":"2026-04-16","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":108,"date":"2026-04-16","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":109,"date":"2026-04-17","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":110,"date":"2026-04-18","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":111,"date":"2026-04-19","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":112,"date":"2026-04-19","vendor":"Facebook Ads","amount":5.1,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":113,"date":"2026-04-20","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":114,"date":"2026-04-20","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":115,"date":"2026-04-21","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":116,"date":"2026-04-23","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":117,"date":"2026-04-24","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":118,"date":"2026-04-24","vendor":"Facebook Ads","amount":12.53,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":119,"date":"2026-04-24","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":120,"date":"2026-04-26","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":121,"date":"2026-04-27","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":122,"date":"2026-04-28","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":123,"date":"2026-04-28","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":124,"date":"2026-04-29","vendor":"Dallas Margarita Festival","amount":515.84,"channel":"Events & Sponsorships","description":"Dallas margarita festival booth set up"},{"id":125,"date":"2026-04-30","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":126,"date":"2026-04-30","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - April 2026"},{"id":127,"date":"2026-04-30","vendor":"Fatima Salim","amount":3200,"channel":"Creative Services","description":"Field and digital marketing services (1 month)"},{"id":128,"date":"2026-05-01","vendor":"Google Ads","amount":560,"channel":"Google Ads","description":"Jaya Dahal"},{"id":129,"date":"2026-05-01","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":130,"date":"2026-05-02","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":131,"date":"2026-05-04","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":132,"date":"2026-05-04","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":133,"date":"2026-05-05","vendor":"Greater Dallas Hispanic Chamber of Commerce","amount":400,"channel":"Events & Sponsorships","description":"Fatima Salimi"},{"id":134,"date":"2026-05-05","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":135,"date":"2026-05-05","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":136,"date":"2026-05-06","vendor":"Facebook Ads","amount":37,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":137,"date":"2026-05-07","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":138,"date":"2026-05-07","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":139,"date":"2026-05-08","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":140,"date":"2026-05-11","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":141,"date":"2026-05-12","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":142,"date":"2026-05-14","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":143,"date":"2026-05-15","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":144,"date":"2026-05-16","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":145,"date":"2026-05-18","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":146,"date":"2026-05-19","vendor":"Facebook Ads","amount":30.44,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":147,"date":"2026-05-21","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":148,"date":"2026-05-21","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":149,"date":"2026-05-24","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":150,"date":"2026-05-24","vendor":"Facebook Ads","amount":2.93,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":151,"date":"2026-05-25","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":152,"date":"2026-05-26","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":153,"date":"2026-05-29","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":154,"date":"2026-05-29","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":155,"date":"2026-05-30","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":156,"date":"2026-05-31","vendor":"Fatima Salim","amount":3200,"channel":"Creative Services","description":"Field and Digital Marketing Services (1 Month)"},{"id":157,"date":"2026-05-31","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - May 2026"},{"id":158,"date":"2026-06-01","vendor":"Google Ads","amount":420.07,"channel":"Google Ads","description":"Jaya Dahal"},{"id":159,"date":"2026-06-02","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":160,"date":"2026-06-04","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":161,"date":"2026-06-04","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":162,"date":"2026-06-05","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":163,"date":"2026-06-05","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":164,"date":"2026-06-08","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":165,"date":"2026-06-10","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":166,"date":"2026-06-10","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":167,"date":"2026-06-11","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":168,"date":"2026-06-12","vendor":"Wow Party Rental","amount":66,"channel":"Promotions & Supplies","description":"Fatima Salimi"},{"id":169,"date":"2026-06-12","vendor":"Wow Party Rental","amount":154,"channel":"Promotions & Supplies","description":"Equipment rental for marketing outreach booth"},{"id":170,"date":"2026-06-12","vendor":"East Dallas Texas Neighborhoods","amount":500,"channel":"Local Media","description":"Chamber membership"},{"id":171,"date":"2026-06-12","vendor":"East Dallas Texas Neighborhoods","amount":100,"channel":"Local Media","description":"Fatima Salimi"},{"id":172,"date":"2026-06-13","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":173,"date":"2026-06-15","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":174,"date":"2026-06-15","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":175,"date":"2026-06-17","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":176,"date":"2026-06-17","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":177,"date":"2026-06-19","vendor":"Facebook Ads","amount":19.81,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":178,"date":"2026-06-21","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":179,"date":"2026-06-21","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":180,"date":"2026-06-22","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":181,"date":"2026-06-22","vendor":"Lake Highlands Wildcat Club","amount":400,"channel":"Events & Sponsorships","description":"1/2 Page Ad"},{"id":182,"date":"2026-06-24","vendor":"Facebook Ads","amount":60.76,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":183,"date":"2026-06-25","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":184,"date":"2026-06-25","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":185,"date":"2026-06-26","vendor":"Lake Highlands Wildcat Club","amount":512.5,"channel":"Events & Sponsorships","description":"2026-2027 Wildcat Club Credit Card Payment Form"},{"id":186,"date":"2026-06-28","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":187,"date":"2026-06-29","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":188,"date":"2026-06-30","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":189,"date":"2026-06-30","vendor":"Fatima Salim","amount":3200,"channel":"Creative Services","description":"Field and Digital Marketing Services (1 Month)"},{"id":190,"date":"2026-06-30","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - June 2026"},{"id":191,"date":"2026-07-01","vendor":"Google Ads","amount":255.67,"channel":"Google Ads","description":"Jaya Dahal"},{"id":192,"date":"2026-07-03","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":193,"date":"2026-07-04","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":194,"date":"2026-07-04","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":195,"date":"2026-07-06","vendor":"Root Shades","amount":150,"channel":"Creative Services","description":"Promotional supplies for July 4th community event outreach"},{"id":196,"date":"2026-07-07","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":197,"date":"2026-07-07","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":198,"date":"2026-07-08","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":199,"date":"2026-07-10","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":200,"date":"2026-07-10","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":201,"date":"2026-07-11","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":202,"date":"2026-07-13","vendor":"Mallory's Cookie Jar","amount":325,"channel":"Promotions & Supplies","description":"Custom Printed Dozen Custom printed cookies"},{"id":203,"date":"2026-07-14","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":204,"date":"2026-07-15","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":205,"date":"2026-07-15","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":206,"date":"2026-07-15","vendor":"In The Mix","amount":24.75,"channel":"Events & Sponsorships","description":"Taxes"},{"id":207,"date":"2026-07-15","vendor":"In The Mix","amount":300,"channel":"Events & Sponsorships","description":"Classic Arch"},{"id":208,"date":"2026-07-18","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":209,"date":"2026-07-18","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":210,"date":"2026-07-19","vendor":"Facebook Ads","amount":25.11,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":211,"date":"2026-07-21","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":212,"date":"2026-07-21","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":213,"date":"2026-07-21","vendor":"East Dallas Texas Neighborhoods","amount":100,"channel":"Local Media","description":"Fatima Salimi"},{"id":214,"date":"2026-07-21","vendor":"East Dallas Texas Neighborhoods","amount":100,"channel":"Local Media","description":"Fatima Salimi"},{"id":215,"date":"2026-07-23","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":216,"date":"2026-07-24","vendor":"Facebook Ads","amount":69.29,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":217,"date":"2026-07-25","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":218,"date":"2026-07-27","vendor":"White Rock Lake Weekly","amount":1125,"channel":"Local Media","description":"1/8th page display"},{"id":219,"date":"2026-07-28","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":220,"date":"2026-07-28","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":221,"date":"2026-07-29","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":222,"date":"2026-07-31","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":223,"date":"2026-07-31","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - July 2026"},{"id":224,"date":"2026-07-31","vendor":"Fatima Salim","amount":3200,"channel":"Creative Services","description":"Field and digital marketing services (1 month)"},{"id":225,"date":"2026-08-01","vendor":"Google Ads","amount":255.92,"channel":"Google Ads","description":"Jaya Dahal"},{"id":226,"date":"2026-08-01","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":227,"date":"2026-08-03","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":228,"date":"2026-08-04","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":229,"date":"2026-08-05","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":230,"date":"2026-08-06","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":231,"date":"2026-08-06","vendor":"Islamic Society of North America","amount":155.3,"channel":"Events & Sponsorships","description":"Jaya Dahal"},{"id":232,"date":"2026-08-07","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":233,"date":"2026-08-08","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":234,"date":"2026-08-11","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":235,"date":"2026-08-11","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":236,"date":"2026-08-11","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":237,"date":"2026-08-15","vendor":"Facebook Ads","amount":60,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":238,"date":"2026-08-15","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":239,"date":"2026-08-17","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":240,"date":"2026-08-17","vendor":"Air Ad Promotions","amount":53.63,"channel":"Local Media","description":"Taxes"},{"id":241,"date":"2026-08-17","vendor":"Air Ad Promotions","amount":650,"channel":"Local Media","description":"Install Service Task"},{"id":242,"date":"2026-08-19","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":243,"date":"2026-08-22","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":244,"date":"2026-08-22","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":245,"date":"2026-08-24","vendor":"Facebook Ads","amount":31.01,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":246,"date":"2026-08-26","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":247,"date":"2026-08-26","vendor":"East Dallas Texas Neighborhoods","amount":500,"channel":"Local Media","description":"Luncheon: Nonprofit Showcase - Sponsorship"},{"id":248,"date":"2026-08-29","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":249,"date":"2026-08-30","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":250,"date":"2026-08-31","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - August 2026"},{"id":251,"date":"2026-08-31","vendor":"Fatima Salim","amount":3200,"channel":"Creative Services","description":"Field and digital marketing services (1 month)"},{"id":252,"date":"2026-09-01","vendor":"Google Ads","amount":236.99,"channel":"Google Ads","description":"Jaya Dahal"},{"id":253,"date":"2026-09-03","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":254,"date":"2026-09-04","vendor":"NextGen Healthare LLC","amount":8500,"channel":"Marketing Agency","description":""},{"id":255,"date":"2026-09-04","vendor":"Forest Meadow Middle School PTA","amount":250,"channel":"Events & Sponsorships","description":"Melissa Chesnut"},{"id":256,"date":"2026-09-04","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":257,"date":"2026-09-08","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":258,"date":"2026-09-08","vendor":"Facebook Ads","amount":166,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":259,"date":"2026-09-11","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":260,"date":"2026-09-14","vendor":"Doordash","amount":21.8,"channel":"DoorDash","description":"Fatima Salimi"},{"id":261,"date":"2026-09-15","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":262,"date":"2026-09-17","vendor":"Facebook Ads","amount":261,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":263,"date":"2026-09-18","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":264,"date":"2026-09-18","vendor":"200MWWC-Dallas","amount":1000,"channel":"Events & Sponsorships","description":"marketing"},{"id":265,"date":"2026-09-21","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":266,"date":"2026-09-24","vendor":"Facebook Ads","amount":218.77,"channel":"Facebook Ads","description":"Jaya Dahal"},{"id":267,"date":"2026-09-25","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":268,"date":"2026-09-26","vendor":"Wow Party Rental","amount":220,"channel":"Promotions & Supplies","description":"Face painting balloon twisting for community event"},{"id":269,"date":"2026-09-29","vendor":"Google Ads","amount":500,"channel":"Google Ads","description":"Jaya Dahal"},{"id":270,"date":"2026-09-30","vendor":"Core C WR LLC","amount":11000,"channel":"Promotions & Supplies","description":"Marketing Services - September 2026"}];
+
+const COLORS = ['#2563eb','#7c3aed','#0891b2','#059669','#d97706','#dc2626','#be185d','#4f46e5'];
+const fmt = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+const fmtFull = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+// State
+let filtered = [...DATA];
+let sortCol = 'date', sortDir = -1, page = 0;
+const PAGE_SIZE = 15;
+
+// Populate filters
+function initFilters() {
+  const channels = [...new Set(DATA.map(d => d.channel))].sort();
+  const vendors = [...new Set(DATA.map(d => d.vendor))].sort();
+  const chSel = document.getElementById('f-channel');
+  const vSel = document.getElementById('f-vendor');
+  channels.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; chSel.appendChild(o); });
+  vendors.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; vSel.appendChild(o); });
+}
+
+function applyFilters() {
+  const from = document.getElementById('f-from').value;
+  const to = document.getElementById('f-to').value;
+  const ch = document.getElementById('f-channel').value;
+  const vendor = document.getElementById('f-vendor').value;
+  const q = document.getElementById('f-search').value.trim().toLowerCase();
+  filtered = DATA.filter(d => {
+    if (from && d.date < from) return false;
+    if (to && d.date > to) return false;
+    if (ch !== 'all' && d.channel !== ch) return false;
+    if (vendor !== 'all' && d.vendor !== vendor) return false;
+    if (q && ![d.vendor, d.channel, d.description].some(s => s.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  page = 0;
+  render();
+}
+
+// Sort
+function sortData() {
+  filtered.sort((a, b) => {
+    let va = a[sortCol], vb = b[sortCol];
+    if (typeof va === 'string') return va.localeCompare(vb) * sortDir;
+    return (va - vb) * sortDir;
+  });
+}
+
+// Metrics
+function renderMetrics() {
+  const total = filtered.reduce((s, d) => s + d.amount, 0);
+  const avg = filtered.length ? total / filtered.length : 0;
+  const months = new Set(filtered.map(d => d.date.slice(0, 7)));
+  const avgMonth = months.size ? total / months.size : 0;
+  const channelCount = new Set(filtered.map(d => d.channel)).size;
+
+  // Month-over-month for latest two months
+  const sortedMonths = [...months].sort();
+  const last = sortedMonths[sortedMonths.length - 1];
+  const prev = sortedMonths[sortedMonths.length - 2];
+  const lastTotal = filtered.filter(d => d.date.startsWith(last)).reduce((s, d) => s + d.amount, 0);
+  const prevTotal = prev ? filtered.filter(d => d.date.startsWith(prev)).reduce((s, d) => s + d.amount, 0) : 0;
+  const pctChange = prevTotal ? ((lastTotal - prevTotal) / prevTotal * 100) : null;
+
+  const html = `
+    <div class="metric-card">
+      <div class="metric-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Total Spend</div>
+      <div class="metric-value">${fmt(total)}</div>
+      <div class="metric-sub">${filtered.length} transactions · ${months.size} months</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Latest Month</div>
+      <div class="metric-value">${fmt(lastTotal)}</div>
+      <div class="metric-sub">${pctChange !== null ? `<span class="metric-badge ${pctChange < 0 ? 'badge-down' : 'badge-up'}">${pctChange > 0 ? '↑' : '↓'} ${Math.abs(pctChange).toFixed(1)}%</span> vs prior month` : 'First month'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Monthly Average</div>
+      <div class="metric-value">${fmt(avgMonth)}</div>
+      <div class="metric-sub">Avg per transaction: ${fmtFull(avg)}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg> Active Channels</div>
+      <div class="metric-value">${channelCount}</div>
+      <div class="metric-sub">${[...new Set(filtered.map(d => d.vendor))].length} unique vendors</div>
+    </div>
+  `;
+  document.getElementById('metrics').innerHTML = html;
+}
+
+// TREND CHART (SVG area)
+function renderTrendChart() {
+  const container = document.getElementById('trend-svg');
+  const buckets = new Map();
+  filtered.forEach(d => {
+    const m = d.date.slice(0, 7);
+    buckets.set(m, (buckets.get(m) || 0) + d.amount);
+  });
+  const data = [...buckets.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  if (!data.length) { container.innerHTML = '<div style="text-align:center;color:var(--fg-muted);padding:40px">No data</div>'; return; }
+
+  const W = 700, H = 220, PL = 60, PR = 20, PT = 10, PB = 40;
+  const cW = W - PL - PR, cH = H - PT - PB;
+  const maxV = Math.max(...data.map(d => d[1])) * 1.1;
+  const xStep = data.length > 1 ? cW / (data.length - 1) : cW;
+
+  const points = data.map((d, i) => [PL + i * xStep, PT + cH - (d[1] / maxV) * cH]);
+  const line = points.map((p, i) => (i === 0 ? 'M' : 'L') + p[0] + ',' + p[1]).join(' ');
+  const area = line + ` L${points[points.length-1][0]},${PT+cH} L${points[0][0]},${PT+cH} Z`;
+
+  // Grid lines
+  const gridCount = 4;
+  let gridLines = '';
+  for (let i = 0; i <= gridCount; i++) {
+    const y = PT + (cH / gridCount) * i;
+    const val = maxV - (maxV / gridCount) * i;
+    gridLines += `<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" class="grid-line"/>`;
+    gridLines += `<text x="${PL-8}" y="${y+4}" text-anchor="end" class="axis-label">${fmt(val)}</text>`;
+  }
+
+  // X labels
+  let xLabels = '';
+  data.forEach((d, i) => {
+    const x = PL + i * xStep;
+    const label = new Date(d[0] + '-02T12:00:00').toLocaleDateString('en-US', {month:'short', year:'2-digit'});
+    xLabels += `<text x="${x}" y="${H-8}" text-anchor="middle" class="axis-label">${label}</text>`;
+  });
+
+  // Dots
+  let dots = '';
+  points.forEach((p, i) => {
+    dots += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--accent)" stroke="var(--bg-card)" stroke-width="2" data-idx="${i}" style="cursor:pointer"/>`;
+  });
+
+  container.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-height:240px;">
+      ${gridLines}
+      <path d="${area}" fill="var(--accent)" class="area-fill"/>
+      <path d="${line}" stroke="var(--accent)" class="area-line"/>
+      ${dots}
+      ${xLabels}
+    </svg>
+    <div class="chart-tooltip" id="trend-tip" hidden></div>
+  `;
+
+  // Tooltip
+  const tip = document.getElementById('trend-tip');
+  container.querySelectorAll('circle').forEach(c => {
+    c.addEventListener('mouseenter', e => {
+      const i = +c.dataset.idx;
+      const label = new Date(data[i][0] + '-02T12:00:00').toLocaleDateString('en-US', {month:'long', year:'numeric'});
+      tip.innerHTML = `<strong>${label}</strong><br>${fmtFull(data[i][1])}`;
+      tip.hidden = false;
+      const rect = container.getBoundingClientRect();
+      const cx = c.getBoundingClientRect();
+      tip.style.left = (cx.left - rect.left + cx.width/2 - tip.offsetWidth/2) + 'px';
+      tip.style.top = (cx.top - rect.top - tip.offsetHeight - 8) + 'px';
+    });
+    c.addEventListener('mouseleave', () => { tip.hidden = true; });
+  });
+}
+
+// CHANNEL BAR CHART
+function renderChannelChart() {
+  const container = document.getElementById('channel-svg');
+  const legend = document.getElementById('channel-legend');
+  const buckets = new Map();
+  filtered.forEach(d => buckets.set(d.channel, (buckets.get(d.channel) || 0) + d.amount));
+  const data = [...buckets.entries()].sort((a, b) => b[1] - a[1]);
+  if (!data.length) { container.innerHTML = '<div style="text-align:center;color:var(--fg-muted);padding:40px">No data</div>'; legend.innerHTML = ''; return; }
+
+  const total = data.reduce((s, d) => s + d[1], 0);
+  const W = 300, H = 300, cx = 150, cy = 140, R = 110;
+
+  let paths = '', startAngle = -Math.PI / 2;
+  data.forEach((d, i) => {
+    const pct = d[1] / total;
+    const endAngle = startAngle + pct * 2 * Math.PI;
+    const largeArc = pct > 0.5 ? 1 : 0;
+    const x1 = cx + R * Math.cos(startAngle), y1 = cy + R * Math.sin(startAngle);
+    const x2 = cx + R * Math.cos(endAngle), y2 = cy + R * Math.sin(endAngle);
+    paths += `<path d="M${cx},${cy} L${x1},${y1} A${R},${R} 0 ${largeArc} 1 ${x2},${y2} Z" fill="${COLORS[i % COLORS.length]}" opacity="0.85" style="cursor:pointer" data-idx="${i}"/>`;
+    startAngle = endAngle;
+  });
+
+  container.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:300px;margin:0 auto;display:block;height:auto;">
+      ${paths}
+      <circle cx="${cx}" cy="${cy}" r="55" fill="var(--bg-card)"/>
+      <text x="${cx}" y="${cy-6}" text-anchor="middle" class="axis-label" style="font-size:10px;font-weight:600">TOTAL</text>
+      <text x="${cx}" y="${cy+14}" text-anchor="middle" style="font-size:16px;font-weight:800;fill:var(--fg);font-family:'DM Sans',sans-serif">${fmt(total)}</text>
+    </svg>
+    <div class="chart-tooltip" id="channel-tip" hidden></div>
+  `;
+
+  legend.innerHTML = data.map((d, i) => `
+    <div class="pie-legend-item">
+      <div class="pie-dot" style="background:${COLORS[i % COLORS.length]}"></div>
+      <span>${d[0]}</span>
+      <span>${fmt(d[1])} (${(d[1]/total*100).toFixed(1)}%)</span>
+    </div>
+  `).join('');
+
+  // Tooltip on pie
+  const tip = document.getElementById('channel-tip');
+  container.querySelectorAll('path').forEach(p => {
+    p.addEventListener('mouseenter', e => {
+      const i = +p.dataset.idx;
+      tip.innerHTML = `<strong>${data[i][0]}</strong><br>${fmtFull(data[i][1])} · ${(data[i][1]/total*100).toFixed(1)}%`;
+      tip.hidden = false;
+    });
+    p.addEventListener('mousemove', e => {
+      const rect = container.getBoundingClientRect();
+      tip.style.left = (e.clientX - rect.left + 12) + 'px';
+      tip.style.top = (e.clientY - rect.top - 10) + 'px';
+    });
+    p.addEventListener('mouseleave', () => { tip.hidden = true; });
+  });
+}
+
+// VENDOR BAR CHART
+function renderVendorChart() {
+  const container = document.getElementById('vendor-svg');
+  const buckets = new Map();
+  filtered.forEach(d => buckets.set(d.vendor, (buckets.get(d.vendor) || 0) + d.amount));
+  let data = [...buckets.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+  if (!data.length) { container.innerHTML = '<div style="text-align:center;color:var(--fg-muted);padding:40px">No data</div>'; return; }
+
+  const maxV = data[0][1];
+  const W = 350, barH = 28, gap = 8, PL = 0, PT = 0;
+  const H = data.length * (barH + gap) + 10;
+
+  let bars = '';
+  data.forEach((d, i) => {
+    const y = PT + i * (barH + gap);
+    const w = Math.max(4, (d[1] / maxV) * (W - 120));
+    const label = d[0].length > 22 ? d[0].slice(0, 20) + '…' : d[0];
+    bars += `<rect x="0" y="${y}" width="${w}" height="${barH}" fill="${COLORS[i % COLORS.length]}" rx="4" opacity="0.85"/>`;
+    bars += `<text x="${w + 8}" y="${y + barH/2 + 4}" class="axis-label" style="font-weight:600">${fmt(d[1])}</text>`;
+    bars += `<text x="${w + 8 + (fmt(d[1]).length * 7 + 8)}" y="${y + barH/2 + 4}" class="axis-label" style="font-size:10px">${label}</text>`;
+  });
+
+  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;">
+    ${bars}
+  </svg>`;
+}
+
+// TABLE
+function renderTable() {
+  sortData();
+  const tbody = document.getElementById('tbody');
+  const start = page * PAGE_SIZE;
+  const pageData = filtered.slice(start, start + PAGE_SIZE);
+
+  tbody.innerHTML = pageData.map(d => `<tr>
+    <td>${new Date(d.date + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})}</td>
+    <td>${d.vendor}</td>
+    <td><span class="channel-badge">${d.channel}</span></td>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis">${d.description || '—'}</td>
+    <td style="text-align:right;font-weight:600;font-variant-numeric:tabular-nums">${fmtFull(d.amount)}</td>
+  </tr>`).join('');
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  document.getElementById('page-info').textContent = `Page ${page + 1} of ${totalPages || 1}`;
+  document.getElementById('prev-page').disabled = page === 0;
+  document.getElementById('next-page').disabled = page >= totalPages - 1;
+  document.getElementById('table-count').textContent = `${filtered.length} transactions · ${fmtFull(filtered.reduce((s, d) => s + d.amount, 0))} total`;
+}
+
+// Sort headers
+document.querySelectorAll('th[data-col]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = col === 'amount' ? -1 : 1; }
+    // Update arrows
+    document.querySelectorAll('th .sort-arrow').forEach(s => s.textContent = '');
+    th.querySelector('.sort-arrow').textContent = sortDir === 1 ? ' ↑' : ' ↓';
+    renderTable();
+  });
+});
+
+// Pagination
+document.getElementById('prev-page').addEventListener('click', () => { if (page > 0) { page--; renderTable(); } });
+document.getElementById('next-page').addEventListener('click', () => { if ((page + 1) * PAGE_SIZE < filtered.length) { page++; renderTable(); } });
+
+// Theme toggle
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  try { localStorage.setItem('wr-theme', next); } catch(e) {}
+}
+document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
+try { const saved = localStorage.getItem('wr-theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); } catch(e) {}
+
+// CSV Export
+document.getElementById('export-csv').addEventListener('click', () => {
+  const headers = ['Date','Vendor','Channel','Description','Amount'];
+  const rows = filtered.map(d => [d.date, `"${d.vendor}"`, `"${d.channel}"`, `"${d.description}"`, d.amount]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], {type: 'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'er-white-rock-spend.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// Filter listeners
+['f-from','f-to','f-channel','f-vendor','f-search'].forEach(id => {
+  document.getElementById(id).addEventListener(id === 'f-search' ? 'input' : 'change', applyFilters);
+});
+
+// Sidebar nav scroll
+function scrollTo(sel) {
+  const el = document.querySelector(sel);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// Full render
+function render() {
+  renderMetrics();
+  renderTrendChart();
+  renderChannelChart();
+  renderVendorChart();
+  renderTable();
+}
+
+initFilters();
+render();
+
+// Set initial sort arrow
+document.querySelector('th[data-col="date"] .sort-arrow').textContent = ' ↓';
+</script>
